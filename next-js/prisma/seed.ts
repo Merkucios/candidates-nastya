@@ -2,6 +2,7 @@ import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
+import { defaultMaterials } from "../src/lib/materials";
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
@@ -12,12 +13,10 @@ async function main() {
   if (!existing) {
     await prisma.settings.create({
       data: {
-        video1Url: "",
-        video2Url: "",
-        presentationUrl: "",
+        materials: defaultMaterials(),
       },
     });
-    console.log("Seeded settings row");
+    console.log("Seeded settings row with default materials");
   } else {
     console.log("Settings already exist, skip");
   }

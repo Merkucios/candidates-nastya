@@ -7,12 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PublicShell } from "@/components/public-shell";
 import { getCandidateId } from "@/lib/candidate-session";
-
-type Settings = {
-  video1Url: string;
-  video2Url: string;
-  presentationUrl: string;
-};
+import type { MaterialItem } from "@/lib/materials";
 
 function EmbedFrame({ title, src }: { title: string; src: string }) {
   if (!src) {
@@ -55,7 +50,7 @@ function MaterialsSkeleton() {
 
 export default function MaterialsPage() {
   const router = useRouter();
-  const [settings, setSettings] = useState<Settings | null>(null);
+  const [materials, setMaterials] = useState<MaterialItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -67,12 +62,12 @@ export default function MaterialsPage() {
     fetch("/api/settings")
       .then((r) => r.json())
       .then((data) => {
-        if (!cancelled) setSettings(data);
+        if (!cancelled) {
+          setMaterials(Array.isArray(data.materials) ? data.materials : []);
+        }
       })
       .catch(() => {
-        if (!cancelled) {
-          setSettings({ video1Url: "", video2Url: "", presentationUrl: "" });
-        }
+        if (!cancelled) setMaterials([]);
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -93,28 +88,34 @@ export default function MaterialsPage() {
               Обучающие материалы
             </h1>
             <p className="max-w-xl text-muted-foreground">
-              Посмотрите видео и презентацию — после этого можно перейти к
+              Посмотрите видео и презентации — после этого можно перейти к
               тестированию.
             </p>
           </div>
 
-          <section className="animate-rise-delay-1 space-y-3">
-            <h2 className="font-display text-lg font-medium">Видео 1</h2>
-            <EmbedFrame title="Видео 1" src={settings?.video1Url ?? ""} />
-          </section>
-
-          <section className="animate-rise-delay-1 space-y-3">
-            <h2 className="font-display text-lg font-medium">Видео 2</h2>
-            <EmbedFrame title="Видео 2" src={settings?.video2Url ?? ""} />
-          </section>
-
-          <section className="animate-rise-delay-2 space-y-3">
-            <h2 className="font-display text-lg font-medium">Презентация</h2>
-            <EmbedFrame
-              title="Презентация"
-              src={settings?.presentationUrl ?? ""}
-            />
-          </section>
+          {materials.length === 0 ? (
+            <p className="text-muted-foreground">
+              Материалы пока не добавлены.
+            </p>
+          ) : (
+            materials.map((item, index) => (
+              <section
+                key={item.id}
+                className={
+                  index === 0
+                    ? "animate-rise-delay-1 space-y-3"
+                    : index === 1
+                      ? "animate-rise-delay-1 space-y-3"
+                      : "animate-rise-delay-2 space-y-3"
+                }
+              >
+                <h2 className="font-display text-lg font-medium">
+                  {item.title}
+                </h2>
+                <EmbedFrame title={item.title} src={item.url} />
+              </section>
+            ))
+          )}
 
           <Button
             size="lg"
