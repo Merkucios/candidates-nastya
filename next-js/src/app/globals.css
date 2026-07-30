@@ -1,0 +1,183 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@fontsource-variable/unbounded";
+@import "@fontsource-variable/manrope";
+
+@custom-variant dark (&:is(.dark *));
+
+/* «Огонёк» — рассвет у озера для вожатых */
+:root {
+  --background: oklch(0.97 0.012 165);
+  --foreground: oklch(0.24 0.035 160);
+  --card: oklch(0.995 0.008 95 / 0.72);
+  --card-foreground: oklch(0.24 0.035 160);
+  --popover: oklch(0.995 0.005 95);
+  --popover-foreground: oklch(0.24 0.035 160);
+  --primary: oklch(0.38 0.07 160);
+  --primary-foreground: oklch(0.98 0.01 95);
+  --secondary: oklch(0.93 0.03 155);
+  --secondary-foreground: oklch(0.3 0.05 160);
+  --muted: oklch(0.94 0.015 165);
+  --muted-foreground: oklch(0.48 0.03 160);
+  --accent: oklch(0.82 0.12 75);
+  --accent-foreground: oklch(0.28 0.06 70);
+  --destructive: oklch(0.52 0.18 25);
+  --border: oklch(0.86 0.025 160);
+  --input: oklch(0.9 0.02 160);
+  --ring: oklch(0.55 0.08 160);
+  --radius: 0.85rem;
+  --honey: oklch(0.78 0.14 75);
+  --lake: oklch(0.72 0.06 200);
+  --pine: oklch(0.32 0.06 155);
+  --mist: oklch(0.96 0.02 180);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-honey: var(--honey);
+  --color-lake: var(--lake);
+  --color-pine: var(--pine);
+  --color-mist: var(--mist);
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 3px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+  --font-sans: "Manrope Variable", Manrope, system-ui, sans-serif;
+  --font-display: "Unbounded Variable", Unbounded, system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+    font-optical-sizing: auto;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .surface-glass {
+    background: color-mix(in oklab, var(--card) 88%, transparent);
+    backdrop-filter: blur(14px);
+    border: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
+  }
+
+  .animate-rise {
+    animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .animate-rise-delay-1 {
+    animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+  }
+
+  .animate-rise-delay-2 {
+    animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(
+      110deg,
+      color-mix(in oklab, var(--muted) 80%, transparent) 25%,
+      color-mix(in oklab, var(--mist) 90%, white) 45%,
+      color-mix(in oklab, var(--muted) 80%, transparent) 65%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, -1.5%, 0) scale(1.04);
+  }
+}
+
+@keyframes lake-glow {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes spark {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateY(-6px);
+  }
+}
+
+.camp-spark {
+  animation: spark 3.2s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.camp-spark-delay {
+  animation: spark 3.8s ease-in-out 1.1s infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
