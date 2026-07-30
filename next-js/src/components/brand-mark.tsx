@@ -21,10 +21,10 @@ export function BrandMark({
           sizes[size]
         )}
       >
-        Огонёк
+        ИНСТРУКТАЖ ПО ТЕХНИКЕ БЕЗОПАСНОСТИ 
       </p>
       <p className="text-sm text-muted-foreground tracking-wide">
-        школа вожатых
+        КГБНОУ КДЦ «Созвездие»
       </p>
     </div>
   );

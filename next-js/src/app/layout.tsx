@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Огонёк — школа вожатых",
+  title: "ИНСТРУКТАЖ | КГБНОУ КДЦ Созвездие",
   description: "Обучение и аттестация вожатых",
 };
 
