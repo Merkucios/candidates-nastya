@@ -14,4 +14,4 @@ npm run dev
 - Публичная часть: http://localhost:3000
 - Админка: http://localhost:3000/admin
 
-См. корневой `README.md` (ТЗ) и `ITERATIONS.md`.
+См. корневой `README.md` (ТЗ)
